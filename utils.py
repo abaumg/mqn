@@ -63,12 +63,12 @@ def combine_config(user, default):
     # I feel like this could be written a lot better but....
     default_config = dict(**default)
     user_config = dict(**user)
-    for k in default_config.iterkeys():
+    for k in default_config.keys():
         if user_config.get(k, None) == None:
             user_config[k] = default_config[k]
         else: # that dict already exists, check and make sure it's values do as well
             if type(user_config[k]) == dict:
-                for k2 in default_config[k].iterkeys():
+                for k2 in default_config[k].keys():
                     if user_config[k].get(k2, None) == None:
                         user_config[k][k2] = default_config[k][k2]
     return user_config

@@ -67,7 +67,7 @@ class Mqn(TaskBarIcon):
                     m_topic = self.config['mqn']['base_topic']+'/'+gethostname().replace('+', '')
                 self.mqtt_subscriptions[m_topic] = {"subscribed": False}
         if self.config.get('topic', None) != None:
-            for sub in self.config['topic'].iterkeys():
+            for sub in self.config['topic'].keys():
                 self.mqtt_subscriptions[sub] = {"subscribed": False, "qos": self.config['topic'][sub].get('qos', 0)}
 
     def mqtt_setup_connection(self, force=False, reload=False):
@@ -93,7 +93,7 @@ class Mqn(TaskBarIcon):
                     tls['keyfile'] = self.config['mqtt']['keyfile']
                 self.client.tls_set(**tls)
             if self.config.get('topic', None) != None:
-                for sub in self.mqtt_subscriptions.iterkeys():
+                for sub in self.mqtt_subscriptions.keys():
                     self.client.message_callback_add(sub, self.on_notification)
             self.mqtt_connection_is_set_up = True
 
@@ -150,7 +150,7 @@ class Mqn(TaskBarIcon):
             # build a list of tuples of the form (subscription, qos)
             # this helps consolidate what could be many subscriptions into just one request, rather than firing off each sub individually
             subtuples = []
-            for subname, sub in self.mqtt_subscriptions.iteritems():
+            for subname, sub in self.mqtt_subscriptions.items():
                 subtuples.append((subname, sub.get('qos', 0)))
             r, mid = self.client.subscribe(subtuples)
             # save the message ID we got for this request, so later on we can mark the specific topic(s) as subscribed or not.
@@ -198,7 +198,7 @@ class Mqn(TaskBarIcon):
         utils.create_menu_item(menu, "connect", self.do_menu_connect, kind=wx.ITEM_CHECK).Check(self.mqtt_connected) # if we're connected to the broker, this is checked
         utils.create_menu_item(menu, "mute notifications", self.toggle_mute, kind=wx.ITEM_CHECK).Check(self.muted)
         topics_submenu = wx.Menu()
-        for subname, sub in self.mqtt_subscriptions.iteritems():
+        for subname, sub in self.mqtt_subscriptions.items():
             utils.create_menu_item(topics_submenu, subname, self.toggle_subscription, bind_to=menu, kind=wx.ITEM_CHECK).Check(sub['subscribed'])
         menu.AppendSubMenu(topics_submenu, "topics").Enable(self.mqtt_connected)
         utils.create_menu_item(menu, "open configuration file", self.open_config)
