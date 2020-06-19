@@ -5,7 +5,7 @@ This is a small program to send notifications (via the system tray) based on mes
 A blog post I wrote with a bit more info about this tool, why I created it, and what it's useful for is [here](https://oliver2213.me/posts/desktop-notifications-with-mqtt-and-my-mqn-tool/).
 
 ## config
-The configuration format for this program is TOML, which is similar to the ubiquitous ini format. An example config file is below, with the meanings of the various options as comments:
+The configuration format for this program is TOML, which is similar to the ubiquitous ini format. The configuration is read from `mqn.conf`. An example config file is below, with the meanings of the various options as comments:
 
 ```
 # options not marked as required can be left out of your config, and a reasonable default will be used if one is required
